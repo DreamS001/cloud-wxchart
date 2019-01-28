@@ -20,35 +20,52 @@
     </view>
   </view>
   <view class="content">
-    <block wx:for="{{dataList}}" wx:key="{{index}}">
-      <view class="post-container">
-        <view class="post-author-date">
-          <image class="post-author" src="{{item.avatar}}"></image>
-          <text class="post-nickname">{{item.nickname}}</text>
-          <text class="post-date">{{item.date}}</text>
-        </view>
-        <!-- <text class="post-title">{{item.title}}</text> -->
-          <view class="imgBox">
-            <image class="post-image" src="{{item.img_url}}"></image>
-            <text class="post-content">{{item.count}}</text>
+    <block wx:if="{{dataList.length>0}}">
+      <block wx:for="{{dataList}}" wx:key="{{index}}">
+        <view class="post-container">
+          <view class="post-author-date">
+            <image class="post-author" src="{{item.avatar}}"></image>
+            <text class="post-nickname">{{item.nickname}}</text>
+            <text class="post-date">{{item.date}}</text>
           </view>
-        
-        <!-- <view class="post-like">
-          <i class="iconfont icon-dianzan" style="font-size:30rpx;color:#333333;"></i>
-          <text class="post-like-font">{{item.reading}}</text>
-          <i class="iconfont icon-yanjing" style="font-size:20rpx;color:#333333;"></i>
-          <text class="post-like-font">{{item.collection}}</text>
-        </view> -->
+          <!-- <text class="post-title">{{item.title}}</text> -->
+            <view class="imgBox">
+              <image class="post-image" bindtap='bindImg' data-src="{{item.img_url}}" src="{{item.img_url}}"></image>
+              <text class="post-content">{{item.count}}</text>
+            </view>
+          
+          <!-- <view class="post-like">
+            <i class="iconfont icon-dianzan" style="font-size:30rpx;color:#333333;"></i>
+            <text class="post-like-font">{{item.reading}}</text>
+            <i class="iconfont icon-yanjing" style="font-size:20rpx;color:#333333;"></i>
+            <text class="post-like-font">{{item.collection}}</text>
+          </view> -->
+        </view>
+      </block>
+    </block>
+    <block wx:else>
+      <view class='none-data'>
+        <image src="http://tingmi.ckugua.com/img/a.png"  mode="aspectFill"/>
       </view>
     </block>
   </view>
 
-  <button class="addBut" wx:if="{{isAuth}}" bindtap="addMood">
-    <!-- <i class="iconfont icon-xingzhuanggongnengtubiao-" style="font-size:80rpx;color:#3fd6c7;"></i> -->
+  <button class="addBut" bindtap="addMood">
     <image src='../../images/add.png' mode="aspectFill" />
   </button>
-  <button class="addBut" wx:else open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo" >
-    <!-- <i class="iconfont icon-xingzhuanggongnengtubiao-" style="font-size:80rpx;color:#3fd6c7;"></i> -->
-    <image src='../../images/add.png' mode="aspectFill" />
+  
+
+  <button class='mask-box' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo" wx:if="{{isAuth}}">
+    <view class='contents'>
+      <image class='logoImg' src='../../images/logo.png' mode="aspectFill" />
+      <span>心情日记欢迎您</span>
+      <view class='qx'>
+        <span>心情日记需要获得以下权限:</span>
+        <span>获取您的公开信息(昵称和头像等),以便于更好的使用体验。</span>
+      </view>
+      <button class="sure" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo" >
+        确定授权
+      </button>
+    </view>
   </button>
 </view>

@@ -5,7 +5,7 @@ const db = wx.cloud.database()
 var QQMapWX  = require('../../util/qqmap-wx-jssdk.js');
 var qqmapsdk;
 
-var date = require("../../util/date.js");
+// var date = require("../../util/date.js");
 
 Page({
   data: {
@@ -18,34 +18,29 @@ Page({
     previewImgList:[],
     city:''
   },
-
+  
   onLoad: function() {
     qqmapsdk = new QQMapWX({
       key: 'ILDBZ-GZN33-ERX3X-3OC5H-T6HJQ-LGB5J' //自己的key秘钥 http://lbs.qq.com/console/mykey.html 在这个网址申请
     });
     // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-          wx.getUserInfo({
-            success: res => {
-              this.setData({
-                isAuth: true
-              })
-            }
-          })
-        }
-      }
-    })
+    
     this.getOpenid()
     this.getResume()
     this.loadInfo()
   },
 
+  onHide(){
+    console.log('我卸载了')
+    this.setData({
+      isAuth:false
+    })
+  },
+
   //获取当前位置的经纬度
   loadInfo: function () {
     var that = this;
+    
     wx.getLocation({
       type: 'gcj02', //返回可以用于wx.openLocation的经纬度
       success: function (res) {
@@ -94,15 +89,16 @@ Page({
     // user.push({'openid':_this.openid})
     //插入用户信息数据
     if (e.detail.errMsg == 'getUserInfo:ok') {
+      _this.setData({
+        isAuth: false
+      })
       db.collection('userInfo').add({
         // data 字段表示需新增的 JSON 数据
         data: user
       }).then(res => {
         console.log(res)
         wx.setStorageSync('userId', res._id)
-        _this.setData({
-          isAuth: true
-        })
+        
       }).catch(err => {
         console.log(err)
       })
@@ -115,9 +111,29 @@ Page({
 
   },
   addMood(){
-    wx.navigateTo({
-      url: '/pages/newresume/newresume',
+    let that=this;
+    wx.getSetting({
+      success: res => {
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+          wx.getUserInfo({
+            success: res => {
+              console.log('已授权')
+              wx.navigateTo({
+                url: '/pages/newresume/newresume',
+              })
+            }
+          })
+        } else {
+          console.log('未授权')
+          // wx.hideTabBar({})
+          that.setData({
+            isAuth:true
+          })
+        }
+      }
     })
+    
   },
   currentTab: function (e) {
     if (this.data.currentTab == e.currentTarget.dataset.idx) {
@@ -152,19 +168,27 @@ Page({
     db.collection('addImg').get({
       success: function (res) {
         console.log(res)
-        var list=res.data
-        // for (var i = 0; i < list.length; i++) {
-        //   list[i]['date'] = date.formatDate(list[i]['date'])
+        // for (var i = 0; i < res.data.length; i++) {
+        //   console.log(res.data[i].date)
+        //   res.data[i].date = toDate(res.data[i].date)
         // }
-        // console.log(list)
         that.setData({
-          dataList: list
+          dataList: res.data
         })
 
        
         // console.log(list)
       }
     })
+  },
+  //时间戳转换时间
+  toDate(number) {
+    var n = number * 1000;
+    var date = new Date(n);
+    var Y = date.getFullYear() + '/';
+    var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '/';
+    var D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+    return (Y + M + D)
   },
   getmy() {
     let that = this;
@@ -265,6 +289,7 @@ Page({
   },
   bindImg(e){
     console.log(e)
+    this.data.previewImgList=[]
     let that=this;
     //必须给对应的wxml的image标签设置data-set=“图片路径”，否则接收不到
     var res = e.target.dataset.src

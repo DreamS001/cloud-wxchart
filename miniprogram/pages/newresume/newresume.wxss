@@ -36,3 +36,11 @@
 .btn{
   margin-top: 80rpx;
 }
+.input{
+  font-size:26rpx;
+  color:#333333;
+}
+.phcolor{
+  font-size:26rpx;
+  color:#333333;
+}

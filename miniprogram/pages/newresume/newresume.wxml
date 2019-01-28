@@ -1,7 +1,7 @@
 <!--pages/newresume/newresume.wxml-->
 <!-- <text>pages/newresume/newresume.wxml</text> -->
 <view class="inputBox">
-  <textarea value="{{concent}}" bindblur="bindTextAreaBlur" placeholder="把美美的心情记录下来吧" placeholder-style="font-size:12rpx;color:#333333;"></textarea>
+  <textarea value="{{concent}}" class='input' bindblur="bindTextAreaBlur" placeholder-class="phcolor" placeholder="把美美的心情记录下来吧"></textarea>
   <view class="img_box"wx:for="{{img}}" wx:key="{{index}}">
     <!-- 图片缩略图  -->
     <image src="{{item}}" mode="aspectFill" />

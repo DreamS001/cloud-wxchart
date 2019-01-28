@@ -80,3 +80,13 @@ vertical-align: middle;
 vertical-align: middle;
 margin-right: 20px;
 }
+
+.none-data{
+  width: 100%;
+  padding-top: 100rpx;
+  box-sizing: border-box;        
+}
+.none-data image{
+    width: 733rpx;
+    height: 275rpx;
+}
