@@ -1,0 +1,38 @@
+/* pages/newresume/newresume.wxss */
+.inputBox{
+  width: 100%;
+  /* height: 300rpx; */
+  padding: 24rpx;
+  box-sizing: border-box;
+}
+.inputBox textarea{
+  width: 100%;
+  height: 300rpx;
+  border: 1rpx solid #cccccc;
+  border-radius: 10rpx;
+  padding: 10rpx;
+  box-sizing: border-box;
+}
+.img_btn{
+  width: 100rpx;
+  height: 100rpx;
+  border: 1rpx solid #cccccc;
+  margin-top: 20rpx;
+  font-size: 60rpx;
+  color: #cccccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.img_box {
+  width: 100rpx;
+  height: 100rpx;
+  margin-top: 20rpx;
+}
+.img_box image{
+  width: 100%;
+  height: 100%;
+}
+.btn{
+  margin-top: 80rpx;
+}

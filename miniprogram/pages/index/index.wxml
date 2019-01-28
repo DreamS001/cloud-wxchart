@@ -1,0 +1,54 @@
+<view class="container">
+
+  <!-- <button bindtap='upImg'>点击上传图片</button>
+  <block wx:for="{{imgUrl}}" wx:key="{{index}}">
+    <image bindtap='bindImg' data-src="{{item.img_url}}" src='{{item.img_url}}'/>
+  </block> -->
+  <view class="top_box">
+    <view class='position_box'>
+      <i class="iconfont icon-weizhi-tianchong" style="font-size:40rpx;color:#333333;"></i>
+      <block wx:if="{{city==''}}">
+        <span bindtap="loadInfo">未知</span>
+      </block>
+      <block wx:else>
+        <span>{{city}}</span>
+      </block>
+    </view>
+    <view class="tab_bar">
+      <view wx:for="{{navTab}}" wx:key="index" data-idx="{{index}}" bindtap="currentTab" class="tab_item {{currentTab==index ? 'tActive' : ''}}">{{item}}</view>
+      <!-- <view class="tab_item">自己</view> -->
+    </view>
+  </view>
+  <view class="content">
+    <block wx:for="{{dataList}}" wx:key="{{index}}">
+      <view class="post-container">
+        <view class="post-author-date">
+          <image class="post-author" src="{{item.avatar}}"></image>
+          <text class="post-nickname">{{item.nickname}}</text>
+          <text class="post-date">{{item.date}}</text>
+        </view>
+        <!-- <text class="post-title">{{item.title}}</text> -->
+          <view class="imgBox">
+            <image class="post-image" src="{{item.img_url}}"></image>
+            <text class="post-content">{{item.count}}</text>
+          </view>
+        
+        <!-- <view class="post-like">
+          <i class="iconfont icon-dianzan" style="font-size:30rpx;color:#333333;"></i>
+          <text class="post-like-font">{{item.reading}}</text>
+          <i class="iconfont icon-yanjing" style="font-size:20rpx;color:#333333;"></i>
+          <text class="post-like-font">{{item.collection}}</text>
+        </view> -->
+      </view>
+    </block>
+  </view>
+
+  <button class="addBut" wx:if="{{isAuth}}" bindtap="addMood">
+    <!-- <i class="iconfont icon-xingzhuanggongnengtubiao-" style="font-size:80rpx;color:#3fd6c7;"></i> -->
+    <image src='../../images/add.png' mode="aspectFill" />
+  </button>
+  <button class="addBut" wx:else open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo" >
+    <!-- <i class="iconfont icon-xingzhuanggongnengtubiao-" style="font-size:80rpx;color:#3fd6c7;"></i> -->
+    <image src='../../images/add.png' mode="aspectFill" />
+  </button>
+</view>
